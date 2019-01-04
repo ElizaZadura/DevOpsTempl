@@ -33,13 +33,13 @@ from awacs.sts import AssumeRole
 
 ApplicationName = "jenkins"
 ApplicationPort = "8080"
-
 GithubAccount = "LarsTufvesson"
 GithubAnsibleURL = "https://github.com/{}/ansible".format(GithubAccount)
-AnsiblePullCmd = "/usr/bin/ansible-pull -U {} -i localhost {}.yml".format(GithubAnsibleURL, ApplicationName)
-
 
 PublicCidrIp = str(ip_network(get_ip()))
+
+AnsiblePullCmd = "/usr/bin/ansible-pull -U {} -i localhost {}.yml".format(GithubAnsibleURL, ApplicationName)
+
 
 t = Template()
 
@@ -72,10 +72,10 @@ t.add_resource(ec2.SecurityGroup(
 ))
 
 ud = Base64(Join('\n', [ "#!/bin/bash",
-                         "yum install --enablerepo=epel -y git", "pip install ansible",
-                         AnsiblePullCmd,
-                         "echo '*/10 * * * * {}' > /etc/cron.d/ansible- pull".format(AnsiblePullCmd)
-                         ]))
+"yum install --enablerepo=epel -y git", "pip install ansible",
+AnsiblePullCmd,
+"echo '*/10 * * * * {}' > /etc/cron.d/ansible- pull".format(AnsiblePullCmd)
+]))
 
 t.add_resource(Role(
   "Role",
