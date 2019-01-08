@@ -78,19 +78,6 @@ ud = Base64(Join('\n', [ "#!/bin/bash",
   "sudo echo '*/10 * * * * {}' | sudo tee /etc/cron.d/ansible-pull > /dev/null".format(AnsiblePullCmd)
 ]))
 
-t.add_resource(IAMPolicy(
-  "Policy",
-  PolicyName="AllowS3",
-  PolicyDocument=Policy(
-    Statement=[
-      Statement(
-        Effect=Allow,
-        Action=[Action("s3", "*")],
-        Resource=["*"])
-    ]
-  ),
-))
-
 t.add_resource(Role(
   "Role",
   AssumeRolePolicyDocument=Policy(
