@@ -1,4 +1,4 @@
-  """Generating CloudFormation template."""
+"""Generating CloudFormation template."""
 
 from ipaddress import ip_network
 
